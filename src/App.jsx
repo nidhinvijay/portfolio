@@ -75,7 +75,7 @@ const App = () => {
           </div>
           <div className="flex items-center space-x-2">
             <VscWarning className="text-yellow-400" />
-            <span>If you see browser caching for that React icon in the tab is a feature, not a bug. 🙂</span>
+            <span>If you see browser caching for the React icon in the tab, it's a feature, not a bug. 🙂</span>
           </div>
         </footer>
       </div>
