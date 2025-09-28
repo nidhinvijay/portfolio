@@ -6,7 +6,7 @@ import Projects from './pages/Projects';
 import Skills from './pages/Skills';
 import Education from './pages/Education';
 import Contact from './pages/Contact';
-import { VscSourceControl } from 'react-icons/vsc';
+import { VscSourceControl, VscWarning } from 'react-icons/vsc';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const App = () => {
@@ -68,14 +68,14 @@ const App = () => {
           </AnimatePresence>
         </main>
         
-        <footer className="bg-vscode-statusbar h-6 flex items-center justify-between px-4 text-xs text-white">
+        <footer className="bg-vscode-statusbar h-8 flex items-center justify-between px-4 text-xs text-white">
            <div className="flex items-center space-x-2">
             <VscSourceControl />
             <span>main</span>
           </div>
           <div className="flex items-center space-x-2">
             <VscWarning className="text-yellow-400" />
-            <span>Browser caching for that React icon in the tab is a feature, not a bug. 🙂</span>
+            <span>If you see browser caching for that React icon in the tab is a feature, not a bug. 🙂</span>
           </div>
         </footer>
       </div>
