@@ -69,10 +69,13 @@ const App = () => {
         </main>
         
         <footer className="bg-vscode-statusbar h-6 flex items-center justify-between px-4 text-xs text-white">
-          {/* ... (Footer remains unchanged) */}
            <div className="flex items-center space-x-2">
             <VscSourceControl />
             <span>main</span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <VscWarning className="text-yellow-400" />
+            <span>Browser caching for that React icon in the tab is a feature, not a bug. 🙂</span>
           </div>
         </footer>
       </div>
