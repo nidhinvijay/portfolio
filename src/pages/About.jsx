@@ -13,7 +13,7 @@ const About = () => {
             1000,
           ]}
           wrapper="pre"
-          speed={80}
+          speed={100}
           style={{ whiteSpace: 'pre-wrap', display: 'inline-block' }}
           repeat={0}
           cursor={true}

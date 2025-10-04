@@ -54,15 +54,15 @@ const projects = [
 const Projects = () => {
   return (
     <div className="text-vscode-text">
-      <h1 className="text-2xl font-bold mb-6"><span className="text-purple-400">class</span> <span className="text-yellow-400">MyProjects</span>:</h1>
+      <h1 className="text-2xl font-bold mb-6"><span className="text-purple-400">class</span> <span className="text-orange-400">MyProjects</span>:</h1>
       <div className="ml-4">
         {projects.map((project, index) => (
           <div key={index} className="mb-6">
             <p className="text-lg"><span className="text-blue-400">def</span> <span className="text-green-400">{project.name}</span>():</p>
             <div className="ml-8 border-l-2 border-gray-600 pl-4">
-              <p><span className="text-purple-400">description</span> = <span className="text-orange-400">"{project.description}"</span></p>
-              <p><span className="text-purple-400">stack</span> = <span className="text-orange-400">{JSON.stringify(project.stack)}</span></p>
-              <p><span className="text-purple-400">repo_url</span> = <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-orange-400 underline hover:text-vscode-accent">"{project.link}"</a></p>
+              <p><span className="text-purple-400">description</span> = <span className="text-yellow-300">"{project.description}"</span></p>
+              <p><span className="text-purple-400">stack</span> = <span className="text-yellow-300">{JSON.stringify(project.stack)}</span></p>
+              <p><span className="text-purple-400">repo_url</span> = <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-vscode-accent">"{project.link}"</a></p>
             </div>
           </div>
         ))}
