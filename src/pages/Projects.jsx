@@ -3,32 +3,32 @@ import React from 'react';
 const projects = [
   {
     name: 'BookHub',
-    description: 'Developed a full-featured library management system with Django, featuring secure user authentication and Google Books API integration.',
-    stack: ['Django', 'Google Books API', 'SQLite'],
+    description: 'Developed a full-featured library management system with Django, featuring secure user authentication, Google Books API integration and RazorPay for seamless book purchases.',
+    stack: ['Django', 'Google Books API', 'Razorpay', 'SQLite'],
     link: 'https://github.com/nidhinvijay/BookHub'
   },
   {
     name: 'AI_Interview_Bot',
-    description: 'Engineered an intelligent recruitment platform using React and Django to automate initial candidate interviews with AI/ML.',
+    description: 'Engineered an intelligent recruitment platform using React and Django to automate initial candidate interviews with AI/ML and conduct interviews using NLP techniques.',
     stack: ['React', 'Django', 'AI/ML', 'NLP'],
     link: 'https://github.com/nidhinvijay/AI_Interview_Bot'
   },
   {
     name: 'voice_guard',
-    description: 'A real-time voice authentication system using WebRTC for live audio capture and machine learning for speaker verification, deployed on Google Cloud.',
-    stack: ['Python', 'WebRTC', 'Machine Learning', 'Google Cloud'],
+    description: 'A real-time voice communication system using WebRTC/Twilio for live moderation using Google Cloud APIs.',
+    stack: ['Python', 'WebRTC', 'Twilio', 'Machine Learning', 'Google Cloud'],
     link: 'https://github.com/nidhinvijay/voice_guard'
   },
    {
     name: 'Textlytics',
-    description: 'A web application for text analysis, providing insights and statistics about any given text.',
-    stack: ['Python', 'Django', 'NLTK'],
+    description: 'A full-featured platform for user registration, secure session management, and powerful text analysis. Users can submit large blocks of text, which are processed asynchronously to compute word frequencies, and then retrieve the most relevant paragraphs for any given search term with high efficiency.',
+    stack: ['Python', 'Django', 'celery', 'NLP', 'JWT authentication'],
     link: 'https://github.com/nidhinvijay/Textlytics'
   },
   {
     name: 'hr-ai-agent',
     description: 'An intelligent HR agent designed to assist with recruitment and employee management tasks using AI.',
-    stack: ['Python', 'AI', 'NLP'],
+    stack: ['Python', 'AI', 'NLP', 'Gemini API'],
     link: 'https://github.com/nidhinvijay/hr-ai-agent'
   },
   {

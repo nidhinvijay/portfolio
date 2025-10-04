@@ -9,7 +9,7 @@ const Skills = () => {
         <p><span className="text-blue-400">const</span> <span className="text-green-400">frontend</span> = [<span className="text-orange-400">'HTML5', 'CSS3', 'JavaScript', 'React.js', 'Tailwind CSS'</span>];</p>
         <p><span className="text-blue-400">const</span> <span className="text-green-400">databases</span> = [<span className="text-orange-400">'SQLite', 'PostgreSQL', 'Oracle (SQL*Plus)'</span>];</p>
         <p><span className="text-blue-400">const</span> <span className="text-green-400">languages</span> = [<span className="text-orange-400">'Python', 'Java' ,'SQL'</span>];</p>
-        <p><span className="text-blue-400">const</span> <span className="text-green-400">tools</span> = [<span className="text-orange-400">'Git', 'GitHub', 'Docker', 'API Integration', 'WebRTC', 'Google Cloud', 'Postman'</span>];</p>
+        <p><span className="text-blue-400">const</span> <span className="text-green-400">tools</span> = [<span className="text-orange-400">'Git', 'GitHub', 'Docker', 'API Integration', 'Twilio', 'WebRTC', 'Google Cloud', 'Postman'</span>];</p>
       </div>
     </div>
   );

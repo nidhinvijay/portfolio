@@ -7,13 +7,13 @@ const About = () => {
       <h1 className="text-2xl font-bold mb-4 text-vscode-accent">NIDHIN V</h1>
       <div className="text-lg">
         <TypeAnimation
-          sequence={[
-            `// Full Stack Developer with internship experience specializing in the Python-Django ecosystem.
-// Proven ability to build, test, and deploy full-stack web applications, with a strong focus on creating efficient backend systems and responsive user interfaces.`,
+          sequence={[`// Full Stack Developer & AI Research Intern with experience building scalable web applications and AI-driven solutions.
+// Skilled in Python, Django, React, SQL, and cloud-based integrations.
+// Experienced in leveraging AI/ML research and modern APIs to create data-driven digital products.`,
             1000,
           ]}
           wrapper="pre"
-          speed={50}
+          speed={80}
           style={{ whiteSpace: 'pre-wrap', display: 'inline-block' }}
           repeat={0}
           cursor={true}
@@ -24,3 +24,6 @@ const About = () => {
 };
 
 export default About;
+
+
+
