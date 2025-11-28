@@ -2,8 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Default Dark+ Theme */
+  --bg-vscode: #1e1e1e;
+  --bg-sidebar: #252526;
+  --bg-activitybar: #333333;
+  --bg-statusbar: #007acc;
+  --bg-editor: #1e1e1e;
+  --text-primary: #d4d4d4;
+  --text-secondary: #cccccc;
+  --border-color: #3e3e42;
+  --accent-color: #007acc;
+}
+
+.theme-dracula {
+  --bg-vscode: #282a36;
+  --bg-sidebar: #21222c;
+  --bg-activitybar: #191a21;
+  --bg-statusbar: #bd93f9;
+  --bg-editor: #282a36;
+  --text-primary: #f8f8f2;
+  --text-secondary: #6272a4;
+  --border-color: #44475a;
+  --accent-color: #ff79c6;
+}
+
+.theme-github-light {
+  --bg-vscode: #ffffff;
+  --bg-sidebar: #f6f8fa;
+  --bg-activitybar: #24292e;
+  --bg-statusbar: #0366d6;
+  --bg-editor: #ffffff;
+  --text-primary: #24292e;
+  --text-secondary: #586069;
+  --border-color: #e1e4e8;
+  --accent-color: #0366d6;
+}
+
+.theme-monokai {
+  --bg-vscode: #272822;
+  --bg-sidebar: #1e1f1c;
+  --bg-activitybar: #171814;
+  --bg-statusbar: #75715e;
+  --bg-editor: #272822;
+  --text-primary: #f8f8f2;
+  --text-secondary: #75715e;
+  --border-color: #49483e;
+  --accent-color: #a6e22e;
+}
+
 body {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  font-family: 'Consolas', 'Menlo', 'monospace';
+  background-color: var(--bg-vscode);
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #424242;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f4f4f;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }

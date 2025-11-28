@@ -7,17 +7,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        // A few VS Code theme colors
         vscode: {
-          bg: '#1e1e1e',
-          sidebar: '#252526',
-          editor: '#1e1e1e',
-          activitybar: '#333333',
-          statusbar: '#007acc',
-          text: '#d4d4d4',
-          accent: '#007acc',
+          bg: 'var(--bg-vscode)',
+          sidebar: 'var(--bg-sidebar)',
+          activitybar: 'var(--bg-activitybar)',
+          statusbar: 'var(--bg-statusbar)',
+          editor: 'var(--bg-editor)',
+          text: 'var(--text-primary)',
+          hover: '#2a2d2e',
+          accent: 'var(--accent-color)',
         }
-      }
+      },
     },
   },
   plugins: [],
