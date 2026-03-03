@@ -29,7 +29,7 @@ const TabBar = ({ openFiles, activeFile, onTabClick, onCloseTab }) => {
         >
           <span className={`mr-2 ${getIconColor(file)}`}>
             {/* Simple icon placeholder based on extension */}
-            {file.endsWith('x') ? '⚛' : file.endsWith('y') ? '🐍' : file.endsWith('d') ? '📝' : file.endsWith('s') ? 'JS' : file.endsWith('n') ? '{}' : '#'}
+            {file.endsWith('.jsx') ? '⚛' : file.endsWith('.py') ? '🐍' : file.endsWith('.md') ? '📝' : file.endsWith('.json') ? '{}' : file.endsWith('.css') ? '#' : 'JS'}
           </span>
           <span className="truncate flex-1">{file}</span>
           <span 

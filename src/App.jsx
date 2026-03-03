@@ -125,19 +125,30 @@ const App = () => {
     }
   };
 
-  const Content = () => (
-    <>
-      <Sidebar onOpenFile={handleOpenFile} isMobile={isMobile} onThemeChange={setTheme} />
+  return (
+    <div
+      className={`flex h-screen bg-vscode-bg font-mono relative overflow-hidden ${theme}`}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+    >
+      {/* Spotlight glow overlay — pointer-events:none so it never blocks clicks */}
+      {!isMobile && (
+        <div
+          ref={glowRef}
+          className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
+        />
+      )}
+
+      <Sidebar onOpenFile={handleOpenFile} isMobile={isMobile} onThemeChange={setTheme} activeTheme={theme} />
       <div className="flex flex-col flex-1 h-full overflow-hidden">
-        <TabBar 
-          openFiles={openFiles} 
-          activeFile={activeFile} 
-          onTabClick={setActiveFile} 
-          onCloseTab={handleCloseTab} 
+        <TabBar
+          openFiles={openFiles}
+          activeFile={activeFile}
+          onTabClick={setActiveFile}
+          onCloseTab={handleCloseTab}
         />
 
         <div className="bg-vscode-sidebar h-6 flex items-center px-4 text-xs text-gray-400 shrink-0">
-           {activeFile ? `src > pages > ${activeFile}` : ''}
+          {activeFile ? `src > pages > ${activeFile}` : ''}
         </div>
 
         <main className="flex-1 bg-vscode-editor overflow-y-auto p-4 md:p-8 relative">
@@ -154,18 +165,18 @@ const App = () => {
             </motion.div>
           </AnimatePresence>
         </main>
-        
-        <Terminal 
-          isOpen={isTerminalOpen} 
-          onClose={() => setIsTerminalOpen(false)} 
+
+        <Terminal
+          isOpen={isTerminalOpen}
+          onClose={() => setIsTerminalOpen(false)}
           onCommand={handleTerminalCommand}
         />
 
         <footer className="bg-vscode-statusbar h-6 flex items-center justify-between px-4 text-xs text-white shrink-0 select-none cursor-default">
-           <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1 hover:bg-white/20 px-1 rounded cursor-pointer">
               <VscSourceControl />
-              <span>main*</span>
+              <span>main</span>
             </div>
             <div className="flex items-center space-x-1 hover:bg-white/20 px-1 rounded cursor-pointer">
               <VscWarning />
@@ -176,28 +187,17 @@ const App = () => {
             <span className="hover:bg-white/20 px-1 rounded cursor-pointer" onClick={() => setIsTerminalOpen(!isTerminalOpen)}>
               {isTerminalOpen ? 'Hide Terminal' : 'Show Terminal'}
             </span>
-            <span className="hover:bg-white/20 px-1 rounded cursor-pointer">Ln 12, Col 45</span>
             <span className="hover:bg-white/20 px-1 rounded cursor-pointer">UTF-8</span>
-            <span className="hover:bg-white/20 px-1 rounded cursor-pointer">JavaScript React</span>
+            <span className="hover:bg-white/20 px-1 rounded cursor-pointer">
+              {activeFile?.endsWith('.py') ? 'Python' : activeFile?.endsWith('.md') ? 'Markdown' : activeFile?.endsWith('.json') ? 'JSON' : activeFile?.endsWith('.css') ? 'CSS' : 'JavaScript React'}
+            </span>
+            <span className="hover:bg-white/20 px-2 rounded cursor-pointer flex items-center gap-1" onClick={() => {}} title="Color Theme">
+              <span className="w-2 h-2 rounded-full inline-block" style={{ backgroundColor: theme === 'theme-dracula' ? '#bd93f9' : theme === 'theme-github-light' ? '#0366d6' : theme === 'theme-monokai' ? '#a6e22e' : '#007acc' }} />
+              {theme === 'theme-dracula' ? 'Dracula' : theme === 'theme-github-light' ? 'GitHub Light' : theme === 'theme-monokai' ? 'Monokai' : 'Dark+'}
+            </span>
           </div>
         </footer>
       </div>
-    </>
-  );
-
-  return (
-    <div
-      className={`flex h-screen bg-vscode-bg font-mono relative overflow-hidden ${theme}`}
-      onMouseMove={!isMobile ? handleMouseMove : undefined}
-    >
-      {/* Spotlight glow overlay — pointer-events:none so it never blocks clicks */}
-      {!isMobile && (
-        <div
-          ref={glowRef}
-          className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
-        />
-      )}
-      <Content />
     </div>
   );
 };
