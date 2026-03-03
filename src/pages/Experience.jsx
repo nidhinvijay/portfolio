@@ -11,7 +11,7 @@ const Experience = () => {
         whileHover={{ scale: 1.02, x: 10, boxShadow: "0px 0px 8px rgba(59, 130, 246, 0.5)" }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <h2 className="text-xl font-bold text-blue-400">AI Research Intern</h2>
+        <h2 className="text-xl font-bold text-blue-400">AI Research Developer</h2>
         <h3 className="text-lg text-vscode-accent">EarthMinorRights AI Labs Pvt Ltd | <span className="text-gray-400 text-sm">Sep 2025 – Present</span></h3>
         <ul className="list-disc list-inside mt-2 space-y-1 text-gray-300">
           <li><strong>VoiceGuard/VoiceGuardian:</strong> Contributing to an AI-powered real-time voice moderation platform with three production versions (Twilio, WebRTC, Agora + Flutter).</li>

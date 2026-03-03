@@ -3,8 +3,7 @@ import { VscChromeClose } from 'react-icons/vsc';
 
 const Terminal = ({ isOpen, onClose, onCommand }) => {
   const [history, setHistory] = useState([
-    { type: 'output', content: 'Microsoft Windows [Version 10.0.19045.4291]' },
-    { type: 'output', content: '(c) Microsoft Corporation. All rights reserved.' },
+    { type: 'output', content: 'Welcome to Nidhin\'s Portfolio Terminal 🚀' },
     { type: 'output', content: '' },
     { type: 'output', content: 'Type "help" for available commands.' },
   ]);
@@ -73,7 +72,7 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
 
     setHistory(prev => [
       ...prev,
-      { type: 'input', content: `C:\\Users\\nidhi\\portfolio> ${cmd}` },
+      { type: 'input', content: `visitor@portfolio:~$ ${cmd}` },
       { type: 'output', content: output }
     ]);
   };
@@ -100,7 +99,7 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
           </div>
         ))}
         <div className="flex items-center">
-          <span className="mr-2">C:\Users\nidhi\portfolio&gt;</span>
+          <span className="mr-2 text-green-400">visitor@portfolio:~$</span>
           <input
             ref={inputRef}
             type="text"

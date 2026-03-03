@@ -6,8 +6,10 @@ const projects = [
     name: 'VoiceGuard_VoiceGuardian',
     description: 'AI Voice Moderation Platform. Multi-Platform Development (Twilio, WebRTC, Agora + Flutter). Real-time transcription with Google Speech-to-Text and hybrid toxicity detection.',
     stack: ['Django', 'Twilio', 'WebRTC', 'Agora', 'Flutter', 'Google Cloud Run', 'Docker'],
-    link: 'https://github.com/nidhinvijay/voiceguardian',
-    link: 'https://github.com/nidhinvijay/voiceguardian_app'
+    links: [
+      { label: 'Web - voiceguardian', url: 'https://github.com/nidhinvijay/voiceguardian' },
+      { label: 'App - voiceguardian_app', url: 'https://github.com/nidhinvijay/voiceguardian_app' },
+    ]
   },
   {
     name: 'Multi_Asset_Real_Time_Trading_Bot',
@@ -51,7 +53,22 @@ const Projects = () => {
             <div className="ml-8 border-l-2 border-gray-600 pl-4">
               <p><span className="text-purple-400">description</span> = <span className="text-yellow-300">"{project.description}"</span></p>
               <p><span className="text-purple-400">stack</span> = <span className="text-yellow-300">{JSON.stringify(project.stack)}</span></p>
-              <p><span className="text-purple-400">repo_url</span> = <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-vscode-accent">"{project.link}"</a></p>
+              <p>
+                <span className="text-purple-400">repo_url</span> ={' '}
+                {project.links ? (
+                  <span className="space-x-2">
+                    {project.links.map((l, i) => (
+                      <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-vscode-accent">
+                        "{l.label}"
+                      </a>
+                    ))}
+                  </span>
+                ) : (
+                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-vscode-accent">
+                    "{project.link}"
+                  </a>
+                )}
+              </p>
             </div>
           </motion.div>
         ))}

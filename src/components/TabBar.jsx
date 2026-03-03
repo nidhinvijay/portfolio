@@ -22,7 +22,7 @@ const TabBar = ({ openFiles, activeFile, onTabClick, onCloseTab }) => {
           animate={{ opacity: 1, width: 'auto' }}
           exit={{ opacity: 0, width: 0 }}
           className={`
-            flex items-center px-3 py-2 min-w-[120px] max-w-[200px] cursor-pointer text-sm border-r border-black/10
+            group flex items-center px-3 py-2 min-w-[120px] max-w-[200px] cursor-pointer text-sm border-r border-black/10
             ${activeFile === file ? 'bg-vscode-editor text-white border-t-2 border-t-vscode-accent' : 'bg-vscode-sidebar text-gray-400 hover:bg-vscode-hover'}
           `}
           onClick={() => onTabClick(file)}

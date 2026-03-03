@@ -19,7 +19,7 @@ const Education = () => {
     {
       "degree": "Master of Computer Application",
       "university": "University of Kerala",
-      "expected": "July 2025"
+      "year": "2025"
     }
   ],
   "certifications": [

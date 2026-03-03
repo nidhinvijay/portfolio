@@ -24,8 +24,7 @@ const About = () => {
           <strong>Full Stack Developer & AI Research Intern</strong><br />
           +91 8921879091 | <a href="mailto:nidhinvijaynv@gmail.com" className="text-blue-400 hover:underline">nidhinvijaynv@gmail.com</a> | 
           <a href="https://www.linkedin.com/in/nidhin-v-807353341/" className="text-blue-400 hover:underline ml-1">LinkedIn</a> | 
-          <a href="https://github.com/nidhinvijay" className="text-blue-400 hover:underline ml-1">GitHub</a> | 
-          <a href="https://portfolio-blond-chi-63.vercel.app/" className="text-blue-400 hover:underline ml-1">Portfolio</a>
+          <a href="https://github.com/nidhinvijay" className="text-blue-400 hover:underline ml-1">GitHub</a>
         </motion.div>
 
         <motion.div 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Sidebar from './components/Sidebar';
 import TabBar from './components/TabBar';
 import Terminal from './components/Terminal';
@@ -10,7 +10,7 @@ import Experience from './pages/Experience';
 import Contact from './pages/Contact';
 import { VscSourceControl, VscWarning } from 'react-icons/vsc';
 import { motion, AnimatePresence } from 'framer-motion';
-import Tilt from 'react-parallax-tilt';
+
 
 const App = () => {
   const [openFiles, setOpenFiles] = useState(['about-me.jsx']);
@@ -18,6 +18,24 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [theme, setTheme] = useState(''); // Default theme
   const [isTerminalOpen, setIsTerminalOpen] = useState(true);
+  const glowRef = useRef(null);
+  const rafRef = useRef(null);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
+
+  const handleMouseMove = useCallback((e) => {
+    mouseRef.current = { x: e.clientX, y: e.clientY };
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => {
+        if (glowRef.current) {
+          glowRef.current.style.background =
+            `radial-gradient(700px circle at ${mouseRef.current.x}px ${mouseRef.current.y}px, rgba(0,122,204,0.07), transparent 70%)`;
+        }
+        rafRef.current = null;
+      });
+    }
+  }, []);
+
+  useEffect(() => () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); }, []);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -168,24 +186,18 @@ const App = () => {
   );
 
   return (
-    <div className={`flex h-screen bg-vscode-bg font-mono relative overflow-hidden ${theme}`}>
-      {!isMobile ? (
-        <Tilt
-          className="flex h-full w-full"
-          tiltMaxAngleX={0.5}
-          tiltMaxAngleY={0.5}
-          perspective={500}
-          scale={1}
-          transitionSpeed={1000}
-          gyroscope={true}
-        >
-          <Content />
-        </Tilt>
-      ) : (
-        <div className="flex h-full w-full flex-col md:flex-row">
-          <Content />
-        </div>
+    <div
+      className={`flex h-screen bg-vscode-bg font-mono relative overflow-hidden ${theme}`}
+      onMouseMove={!isMobile ? handleMouseMove : undefined}
+    >
+      {/* Spotlight glow overlay — pointer-events:none so it never blocks clicks */}
+      {!isMobile && (
+        <div
+          ref={glowRef}
+          className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
+        />
       )}
+      <Content />
     </div>
   );
 };
