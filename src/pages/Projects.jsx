@@ -31,7 +31,7 @@ const projects = [
     name: 'Textlytics',
     description: 'Containerized Text Analysis Platform. Production-ready API using Django REST Framework, Celery, Redis, and PostgreSQL.',
     stack: ['Django REST Framework', 'Celery', 'Redis', 'PostgreSQL', 'Docker'],
-    link: 'https://github.com/nidhinvijay,Textlytics'
+    link: 'https://github.com/nidhinvijay/Textlytics'
   }
 ];
 
