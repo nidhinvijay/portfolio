@@ -6,31 +6,32 @@ const projects = [
     name: 'VoiceGuard_VoiceGuardian',
     description: 'AI Voice Moderation Platform. Multi-Platform Development (Twilio, WebRTC, Agora + Flutter). Real-time transcription with Google Speech-to-Text and hybrid toxicity detection.',
     stack: ['Django', 'Twilio', 'WebRTC', 'Agora', 'Flutter', 'Google Cloud Run', 'Docker'],
-    link: 'https://github.com/nidhinvijay'
+    link: 'https://github.com/nidhinvijay/voiceguardian',
+    link: 'https://github.com/nidhinvijay/voiceguardian_app'
   },
   {
     name: 'Multi_Asset_Real_Time_Trading_Bot',
     description: 'Real-time paper trading engine using Node.js, Express, and WebSockets. Dual Finite State Machine (Long/Short) with crash-safe state persistence.',
     stack: ['Node.js', 'Express', 'WebSockets', 'Binance API', 'Fyers API', 'Google Cloud VM'],
-    link: 'https://github.com/nidhinvijay'
+    link: 'https://github.com/nidhinvijay/BTCUSDT'
   },
   {
     name: 'AI_Interview_Bot',
     description: 'Full-stack recruitment platform using React + Django. AI chatbot for preliminary screening and facial expression analysis.',
     stack: ['React', 'Django', 'AI/ML', 'NLP'],
-    link: 'https://github.com/nidhinvijay'
+    link: 'https://github.com/nidhinvijay/AI_Interview_Bot'
   },
   {
     name: 'BookHub',
     description: 'Library Management System with Django. Role-based access, borrowing workflows, Razorpay integration, and Google Books API automation.',
     stack: ['Django', 'Razorpay', 'Google Books API', 'Redis'],
-    link: 'https://github.com/nidhinvijay'
+    link: 'https://github.com/nidhinvijay/BookHub'
   },
   {
     name: 'Textlytics',
     description: 'Containerized Text Analysis Platform. Production-ready API using Django REST Framework, Celery, Redis, and PostgreSQL.',
     stack: ['Django REST Framework', 'Celery', 'Redis', 'PostgreSQL', 'Docker'],
-    link: 'https://github.com/nidhinvijay'
+    link: 'https://github.com/nidhinvijay,Textlytics'
   }
 ];
 
