@@ -62,7 +62,7 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
         output = 'visitor@portfolio';
         break;
       case 'about':
-        output = 'Nidhin V - Full Stack Developer & AI Research Intern';
+        output = 'Nidhin V - Full Stack Developer';
         break;
       case '':
         break;
