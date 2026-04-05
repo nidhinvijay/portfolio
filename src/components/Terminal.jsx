@@ -87,7 +87,7 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="h-48 bg-vscode-sidebar border-t border-vscode-activitybar flex flex-col text-vscode-text font-mono text-sm">
+    <div className="h-40 bg-vscode-sidebar border-t border-vscode-activitybar flex flex-col text-vscode-text font-mono text-sm">
       <div className="flex justify-between items-center px-4 py-1 bg-vscode-activitybar text-xs uppercase tracking-wider">
         <span>Terminal</span>
         <VscChromeClose className="cursor-pointer hover:text-white" onClick={onClose} />

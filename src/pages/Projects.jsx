@@ -3,6 +3,12 @@ import { motion } from 'framer-motion';
 
 const projects = [
   {
+    name: 'AyurCare',
+    description: 'Full-stack AI-assisted Ayurvedic telemedicine platform. AI collects and summarizes patient symptoms; doctors review and prescribe. Integrated Agora RTC for real-time doctor–patient video consultations. Built with Django REST API, Next.js frontend, and Groq/LLaMA 3.1 for fast AI inference.',
+    stack: ['Django', 'Next.js', 'Groq / LLaMA 3.1', 'Agora RTC', 'Cloudflare Tunnel'],
+    isPrivate: true
+  },
+  {
     name: 'VoiceGuardian',
     description: 'AI Voice Moderation Platform built across 3 platforms — Twilio/Django Channels (browser), WebRTC (peer), Agora RTC + Flutter (mobile). FastAPI + SQLModel backend with JWT auth, friend/call management, Firebase FCM push, Perspective API + Groq LLM for toxicity detection and polite rephrasing.',
     stack: ['FastAPI', 'Django', 'Flutter', 'Agora RTC', 'Firebase', 'Groq', 'Google STT', 'Docker'],
@@ -71,7 +77,9 @@ const Projects = () => {
               <p><span className="text-purple-400">stack</span> = <span className="text-yellow-300">{JSON.stringify(project.stack)}</span></p>
               <p>
                 <span className="text-purple-400">repo_url</span> ={' '}
-                {project.links ? (
+                {project.isPrivate ? (
+                  <span className="text-gray-500 italic">"private"</span>
+                ) : project.links ? (
                   <span className="space-x-2">
                     {project.links.map((l, i) => (
                       <a key={i} href={l.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline hover:text-vscode-accent">
