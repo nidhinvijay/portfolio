@@ -3,37 +3,53 @@ import { motion } from 'framer-motion';
 
 const projects = [
   {
-    name: 'VoiceGuard_VoiceGuardian',
-    description: 'AI Voice Moderation Platform. Multi-Platform Development (Twilio, WebRTC, Agora + Flutter). Real-time transcription with Google Speech-to-Text and hybrid toxicity detection.',
-    stack: ['Django', 'Twilio', 'WebRTC', 'Agora', 'Flutter', 'Google Cloud Run', 'Docker'],
+    name: 'VoiceGuardian',
+    description: 'AI Voice Moderation Platform built across 3 platforms — Twilio/Django Channels (browser), WebRTC (peer), Agora RTC + Flutter (mobile). FastAPI + SQLModel backend with JWT auth, friend/call management, Firebase FCM push, Perspective API + Groq LLM for toxicity detection and polite rephrasing.',
+    stack: ['FastAPI', 'Django', 'Flutter', 'Agora RTC', 'Firebase', 'Groq', 'Google STT', 'Docker'],
     links: [
-      { label: 'Web - voiceguardian', url: 'https://github.com/nidhinvijay/voiceguardian' },
-      { label: 'App - voiceguardian_app', url: 'https://github.com/nidhinvijay/voiceguardian_app' },
+      { label: 'Web Backend', url: 'https://github.com/nidhinvijay/voice_guard' },
+      { label: 'Mobile Backend', url: 'https://github.com/nidhinvijay/voiceguardian' },
+      { label: 'Flutter App', url: 'https://github.com/nidhinvijay/voiceguardian_app' },
     ]
   },
   {
-    name: 'Multi_Asset_Real_Time_Trading_Bot',
-    description: 'Real-time paper trading engine using Node.js, Express, and WebSockets. Dual Finite State Machine (Long/Short) with crash-safe state persistence.',
-    stack: ['Node.js', 'Express', 'WebSockets', 'Binance API', 'Fyers API', 'Google Cloud VM'],
+    name: 'Zerodha_Live_Trading_System',
+    description: 'Real-money multi-account trading system via Zerodha KiteConnect API. Angular 19 frontend + Node.js + Socket.IO backend. FSM validates paper P&L before going live; dynamic capital-based quantity calculation, hot-reload credentials, TradingView webhook signal injection.',
+    stack: ['Angular 19', 'Node.js', 'Socket.IO', 'KiteConnect API', 'PM2', 'Cloudflare Tunnel'],
+    link: 'https://github.com/nidhinvijay/Zerodha'
+  },
+  {
+    name: 'Multi_Asset_Paper_Trader',
+    description: 'Real-time paper trading engine using Node.js + WebSockets processing 100+ symbol updates/sec. Dual FSM (Long/Short) with crash-safe state persistence. Integrated Binance WebSocket, Fyers OAuth v3, and TradingView webhooks.',
+    stack: ['Node.js', 'Express', 'WebSockets', 'Binance API', 'Fyers API', 'Google Cloud VM', 'PM2'],
     link: 'https://github.com/nidhinvijay/BTCUSDT'
   },
   {
+    name: 'BookHub',
+    description: 'Library Management System with Django. Full Razorpay payment lifecycle (5 stages), Google Books API with 24-hour caching, role-based access decorators, librarian analytics dashboard.',
+    stack: ['Django', 'Razorpay', 'Google Books API', 'PostgreSQL'],
+    links: [
+      { label: 'Live Demo', url: 'https://bookhub-if2m.onrender.com' },
+      { label: 'GitHub', url: 'https://github.com/nidhinvijay/BookHub' },
+    ]
+  },
+  {
     name: 'AI_Interview_Bot',
-    description: 'Full-stack recruitment platform using React + Django. AI chatbot for preliminary screening and facial expression analysis.',
-    stack: ['React', 'Django', 'AI/ML', 'NLP'],
+    description: 'Full-stack AI recruitment platform. PDF resume parsing → Gemini API generates 30 MCQs tailored to candidate. Real-time facial emotion detection using TensorFlow/Keras + OpenCV. Multi-stage hiring pipeline.',
+    stack: ['React', 'Django', 'Gemini API', 'TensorFlow', 'OpenCV', 'PyPDF2'],
     link: 'https://github.com/nidhinvijay/AI_Interview_Bot'
   },
   {
-    name: 'BookHub',
-    description: 'Library Management System with Django. Role-based access, borrowing workflows, Razorpay integration, and Google Books API automation.',
-    stack: ['Django', 'Razorpay', 'Google Books API', 'Redis'],
-    link: 'https://github.com/nidhinvijay/BookHub'
+    name: 'HR_AI_Agent',
+    description: 'AI-powered recruitment screening tool. Gemini API parses resumes, scores candidates 1–100, and ranks by relevance. Google Calendar API auto-schedules interviews for shortlisted candidates.',
+    stack: ['Django REST Framework', 'Gemini API', 'Google Calendar API', 'PyPDF2'],
+    link: 'https://github.com/nidhinvijay/hr-ai-agent'
   },
   {
     name: 'Textlytics',
-    description: 'Containerized Text Analysis Platform. Production-ready API using Django REST Framework, Celery, Redis, and PostgreSQL.',
+    description: 'Containerized Text Analysis Platform. Production-ready REST API using Django REST Framework, Celery, Redis, and PostgreSQL with GIN indexing for high-performance text search.',
     stack: ['Django REST Framework', 'Celery', 'Redis', 'PostgreSQL', 'Docker'],
-    link: 'https://github.com/nidhinvijay/Textlytics'
+    link: 'https://github.com/nidhinvijay/textlytics'
   }
 ];
 
