@@ -33,9 +33,9 @@ const About = () => {
         >
           <TypeAnimation
             sequence={[`// SUMMARY
-// Full Stack Developer with hands-on experience building real-time AI systems, scalable backend architectures, and production-grade web and mobile applications.
-// Proficient in Django, FastAPI, Node.js, React, Angular, Flutter, and cloud deployments on Google Cloud Run.
-// Experienced in integrating AI/ML APIs (Gemini, Groq, Perspective) and delivering end-to-end products from design to deployment.`,
+// Full Stack Developer with experience building real-time AI systems, scalable backend architectures, and production-grade web and mobile applications.
+// Proficient in Next.js, React, Django, FastAPI, Node.js, and cloud deployments on AWS and Google Cloud.
+// Skilled in integrating LLMs (Gemini, Llama), developing event-driven architectures (SSE, WebSockets), and implementing secure, containerized deployment pipelines.`,
               1000,
             ]}
             wrapper="pre"

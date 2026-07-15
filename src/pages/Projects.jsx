@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 
 const projects = [
   {
-    name: 'AyurCare',
-    description: 'Full-stack AI-assisted Ayurvedic telemedicine platform. AI collects and summarizes patient symptoms; doctors review and prescribe. Integrated Agora RTC for real-time doctor–patient video consultations. Built with Django REST API, Next.js frontend, and Groq/LLaMA 3.1 for fast AI inference.',
-    stack: ['Django', 'Next.js', 'Groq / LLaMA 3.1', 'Agora RTC', 'Cloudflare Tunnel'],
+    name: 'EMR',
+    description: 'High-performance telemedicine and EMR SaaS platform. Features a real-time waitlist triage system using Server-Sent Events (SSE), Agora RTC video consultations, and server-side Tesseract OCR for automated clinical document ingestion.',
+    stack: ['Next.js (App Router)', 'TypeScript', 'Django', 'PostgreSQL', 'AWS (EC2, S3)', 'SSE', 'Agora RTC', 'Docker'],
     isPrivate: true
   },
   {
