@@ -87,7 +87,6 @@ export const projects = [
     stack: ['Django', 'Razorpay', 'Google Books API', 'PostgreSQL'],
     flow: ['Django', 'Razorpay', 'Books API cache', 'PostgreSQL'],
     links: [
-      { label: 'Live demo', url: 'https://bookhub-if2m.onrender.com' },
       { label: 'GitHub', url: 'https://github.com/nidhinvijay/BookHub' },
     ],
   },
