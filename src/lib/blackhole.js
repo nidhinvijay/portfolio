@@ -139,7 +139,7 @@ const frag = /* glsl */ `
 
 export function createBlackHole(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, premultipliedAlpha: true });
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5); // matches the snapshot's resolution
   renderer.setPixelRatio(dpr);
   renderer.setClearColor(0x000000, 0);
 
@@ -173,6 +173,10 @@ export function createBlackHole(canvas) {
   const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
   let hasTexture = false;
+
+  // Compile the shader now, not at the moment the hole appears (that was a ~0.5 s hitch).
+  renderer.setSize(2, 2, false);
+  renderer.render(scene, camera);
   const centre = { x: 0, y: 0 };
   let origin = null; // where the hole is born (the visitor's cursor), if known
 
@@ -188,6 +192,11 @@ export function createBlackHole(canvas) {
       texture.image = source;
       texture.needsUpdate = true;
       hasTexture = true;
+      // Upload the texture and build its mipmaps right away (canvas is still hidden),
+      // so the first visible frame of the black hole doesn't stall.
+      uniforms.uP.value = 0;
+      uniforms.uFade.value = 0;
+      renderer.render(scene, camera);
     },
     setRect({ x, y, width, height }) {
       uniforms.uRect.value.set(x, y, width, height);

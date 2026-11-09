@@ -19,8 +19,11 @@ const Cursor = () => {
     const root = document.documentElement;
     root.classList.add('has-cursor');
 
-    const xTo = gsap.quickTo(el.current, 'x', { duration: 0.16, ease: 'power3' });
-    const yTo = gsap.quickTo(el.current, 'y', { duration: 0.16, ease: 'power3' });
+    // Follow the real pointer exactly, with no glide. The native cursor is hidden, so any
+    // trailing or easing reads as the mouse being "stuck".
+    const node = el.current;
+    let px = 0, py = 0, queued = false;
+    const place = () => { queued = false; node.style.transform = `translate3d(${px}px, ${py}px, 0)`; };
     const s = { hover: false, down: false, pull: 0, shown: false };
 
     const apply = () => {
@@ -30,19 +33,19 @@ const Cursor = () => {
     };
 
     const onMove = (e) => {
-      xTo(e.clientX);
-      yTo(e.clientY);
+      px = e.clientX; py = e.clientY;
+      if (!queued) { queued = true; requestAnimationFrame(place); }
       if (!s.shown) {
         s.shown = true;
-        gsap.set(el.current, { x: e.clientX, y: e.clientY });
-        gsap.to(el.current, { opacity: 1, duration: 0.25 });
+        place();
+        gsap.to(node, { opacity: 1, duration: 0.25 });
       }
       const hover = !!e.target.closest?.(INTERACTIVE);
       if (hover !== s.hover) { s.hover = hover; apply(); }
     };
     const onDown = () => { s.down = true; apply(); };
     const onUp = () => { s.down = false; apply(); };
-    const onLeave = () => { s.shown = false; gsap.to(el.current, { opacity: 0, duration: 0.2 }); };
+    const onLeave = () => { s.shown = false; gsap.to(node, { opacity: 0, duration: 0.2 }); };
     const onGravity = (e) => { s.pull = e.detail.on ? e.detail.k : 0; apply(); };
 
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -63,7 +66,7 @@ const Cursor = () => {
   }, []);
 
   return createPortal(
-    <div ref={el} className="fixed left-0 top-0 z-[100] pointer-events-none opacity-0" aria-hidden="true">
+    <div ref={el} className="fixed left-0 top-0 z-[100] pointer-events-none opacity-0 will-change-transform" aria-hidden="true">
       <div
         ref={core}
         data-hover="false"

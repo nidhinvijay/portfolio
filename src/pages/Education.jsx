@@ -10,8 +10,7 @@ const Education = () => {
         transition={{ duration: 0.5 }}
       >
         <motion.pre 
-          className="p-4 rounded hover:bg-vscode-sidebar border border-transparent hover:border-orange-400 transition-all duration-300"
-          whileHover={{ scale: 1.02, boxShadow: "0px 0px 15px rgba(251, 146, 60, 0.3)" }}
+          className="p-4 rounded hover:bg-vscode-sidebar border border-transparent hover:border-orange-400 transition-[background-color,border-color] duration-300"
         >
           <code>
 {`{

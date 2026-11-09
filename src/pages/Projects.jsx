@@ -11,9 +11,7 @@ const Projects = () => {
         {projects.map((project, index) => (
           <motion.div 
             key={index} 
-            className="mb-6 p-4 rounded-lg border border-transparent hover:border-vscode-accent hover:bg-vscode-sidebar transition-colors duration-300"
-            whileHover={{ scale: 1.02, x: 10, boxShadow: "0px 0px 8px rgba(0, 122, 204, 0.5)" }}
-            transition={{ type: "spring", stiffness: 300 }}
+            className="mb-6 p-4 rounded-lg border border-transparent hover:border-vscode-accent hover:bg-vscode-sidebar hover:shadow-[0_0_10px_rgba(198,242,90,0.15)] transition-[background-color,border-color,box-shadow] duration-300"
           >
             <p className="text-lg"><span className="text-blue-400">def</span> <span className="text-green-400">{project.name.replace(/\W+/g, '_')}</span>():</p>
             <div className="ml-8 border-l-2 border-gray-600 pl-4">

@@ -142,7 +142,9 @@ const EditorWindow = ({ onExit }) => {
             {activeFile ? `src > pages > ${activeFile}` : ''}
           </div>
 
-          <main className="flex-1 bg-vscode-editor overflow-y-auto p-2 md:p-6 relative">
+          {/* overflow-x hidden + a reserved scrollbar gutter: hover effects that nudge a card
+              sideways must never toggle a scrollbar, or the layout ping-pongs and freezes. */}
+          <main className="flex-1 bg-vscode-editor overflow-y-auto overflow-x-hidden [scrollbar-gutter:stable] p-2 md:p-6 relative">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeFile}

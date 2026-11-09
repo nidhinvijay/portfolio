@@ -9,7 +9,7 @@ const Skills = () => (
     <h1 className="text-2xl font-bold mb-6 text-yellow-400">My Technical Skills</h1>
     <div>
       {skills.map((s) => (
-        <motion.p key={s.group} className="mb-2 p-2 rounded hover:bg-vscode-sidebar" whileHover={{ scale: 1.02, x: 10 }}>
+        <motion.p key={s.group} className="mb-2 p-2 rounded hover:bg-vscode-sidebar">
           <span className="text-blue-400">const</span> <span className="text-green-400">{toIdent(s.group)}</span> = [
           <span className="text-orange-400">{s.items.map((it) => `'${it}'`).join(', ')}</span>];
         </motion.p>

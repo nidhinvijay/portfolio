@@ -13,9 +13,7 @@ const Experience = () => {
       {roles.map((job, i) => (
         <motion.div
           key={job.branch}
-          className="mb-8 p-4 rounded-lg border border-transparent hover:border-vscode-accent hover:bg-vscode-sidebar transition-colors duration-300"
-          whileHover={{ scale: 1.01, x: 6 }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          className="mb-8 p-4 rounded-lg border border-transparent hover:border-vscode-accent hover:bg-vscode-sidebar hover:shadow-[0_0_10px_rgba(198,242,90,0.15)] transition-[background-color,border-color,box-shadow] duration-300"
         >
           <h2 className={`text-xl font-bold ${colors[i % colors.length]}`}>## {job.role}</h2>
           <h3 className="text-lg text-vscode-accent">

@@ -1,29 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { toCanvas } from 'html-to-image';
+import { snapshot, embedEditorFont } from '../lib/snapshot';
 
-/**
- * Inline the editor font (Fira Code, latin subset) as data URLs for the snapshot.
- * Done by hand: html-to-image caches a failed lookup if it runs before the
- * Google Fonts stylesheet is readable.
- */
-let editorFontCSS = null;
-async function embedEditorFont() {
-  if (editorFontCSS) return editorFontCSS;
-  const css = await fetch('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap').then((r) => r.text());
-  const blocks = css.split('/*').filter((b) => b.trimStart().startsWith('latin */'));
-  const faces = await Promise.all(blocks.map(async (b) => {
-    const face = b.slice(b.indexOf('@font-face'));
-    const url = face.match(/url\(([^)]+)\)/)?.[1];
-    if (!url) return '';
-    const blob = await fetch(url).then((r) => r.blob());
-    const data = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.readAsDataURL(blob); });
-    return face.replace(url, data);
-  }));
-  const out = faces.join(' ');
-  if (!out.includes('data:')) throw new Error('editor font not embeddable');
-  editorFontCSS = out;
-  return out;
-}
 import EditorWindow from '../editor/EditorWindow';
 import { gsap, useGSAP, ScrollTrigger, prefersReducedMotion, scrollToTarget, jumps } from '../lib/motion';
 import { createBlackHole } from '../lib/blackhole';
@@ -84,7 +62,6 @@ const Stage = () => {
       let capturing = false;
       let captured = false;
       let stale = true; // the snapshot no longer matches the live window
-      let ignoreScrollUntil = 0;
       let fresh = false; // the current texture matches the live window
 
       const measure = () => {
@@ -102,38 +79,19 @@ const Stage = () => {
         try {
           // The snapshot must use the real editor font, or lines re-wrap and the swap snaps.
           if (!fontCSS) fontCSS = await embedEditorFont();
-          // The snapshot tool copies elements but not their scroll position, so a file
-          // scrolled halfway down would come out showing its top. Swap each scroll offset
-          // for an equal translate while capturing (looks identical), then restore it.
-          ignoreScrollUntil = Infinity;
-          const scrolled = [...live.querySelectorAll('*')]
-            .filter((el) => el.scrollTop > 0 || el.scrollLeft > 0)
-            .map((el) => {
-              const top = el.scrollTop, left = el.scrollLeft;
-              const kids = [...el.children].map((k) => ({ k, prev: k.style.translate }));
-              kids.forEach(({ k }) => { k.style.translate = `${-left}px ${-top}px`; });
-              el.scrollTop = 0; el.scrollLeft = 0;
-              return { el, top, left, kids };
-            });
-          let img;
-          try {
-            // Never hang: if the browser stalls the snapshot, give up and restore the window.
-            const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('snapshot timed out')), 2500));
-            img = await Promise.race([timeout, toCanvas(live, {
-              pixelRatio: Math.min(window.devicePixelRatio || 1, 1.75),
+          // Never hang: if the browser stalls the snapshot, give up.
+          const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('snapshot timed out')), 2500));
+          const bg = getComputedStyle(live.firstElementChild).backgroundColor;
+          const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+          // Lean snapshot (~20-70 ms, keeps scroll positions). The full html-to-image copy is
+          // only a fallback: it copies every style property and could freeze the page for seconds.
+          const img = await Promise.race([timeout, snapshot(live, { pixelRatio: ratio, fontCSS, background: bg })
+            .catch(() => toCanvas(live, {
+              pixelRatio: ratio,
               fontEmbedCSS: fontCSS,
-              backgroundColor: getComputedStyle(live.firstElementChild).backgroundColor,
-              // Capture the window as laid out, never mid-transition.
+              backgroundColor: bg,
               style: { transform: 'none', filter: 'none', opacity: '1', visibility: 'visible' },
-            })]);
-          } finally {
-            scrolled.forEach(({ el, top, left, kids }) => {
-              kids.forEach(({ k, prev }) => { k.style.translate = prev; });
-              el.scrollTop = top; el.scrollLeft = left;
-            });
-            // Our own scroll restore fires scroll events; don't treat them as edits.
-            ignoreScrollUntil = performance.now() + 300;
-          }
+            }))]);
           bh.setTexture(img);
           captured = true;
           fresh = !stale; // nothing changed while we were capturing
@@ -181,12 +139,16 @@ const Stage = () => {
 
       // Anything that changes what the window shows makes the snapshot stale.
       let recapture;
-      const dirty = (e) => {
-        if (e?.type === 'scroll' && performance.now() < ignoreScrollUntil) return;
+      const dirty = () => {
         stale = true;
         fresh = false;
+        gravity.rectsDirty = true;
+        // Snapshots copy the whole editor and briefly block the page, so don't take one on
+        // every click or scroll. Only refresh when the visitor is close to the black hole.
         clearTimeout(recapture);
-        recapture = setTimeout(() => { if (state.p === 0) capture(); }, 350);
+        if (gravity.k >= 0.55 && gravity.k < 1) {
+          recapture = setTimeout(() => { if (state.p === 0) capture(); }, 350);
+        }
       };
       const observer = new MutationObserver(dirty);
       observer.observe(live, { subtree: true, childList: true, characterData: true });
@@ -202,19 +164,38 @@ const Stage = () => {
       // strengthens as the singularity approaches. Desktop pointers only.
       const SEL = 'main h1, main h2, main h3, main p, main li, main pre, main dd, main code';
       const gravity = {
-        on: false, inside: false, k: 0, mx: 0, my: 0, items: [], running: false,
+        on: false, inside: false, k: 0, mx: 0, my: 0, items: [], running: false, rectsDirty: true, main: null,
         collect() {
           this.reset();
-          this.items = [...live.querySelectorAll(SEL)].map((el) => ({ el, x: 0, y: 0, tx: 0, ty: 0 }));
+          this.main = live.querySelector('main');
+          this.items = [...live.querySelectorAll(SEL)].map((el) => ({ el, x: 0, y: 0, tx: 0, ty: 0, r: null }));
+          this.rectsDirty = true;
+        },
+        // Measure every line once (relative to the scrolling editor pane) and reuse it.
+        // Reading layout for every line on every mouse move is what made hovering stutter.
+        measure() {
+          if (!this.main) return;
+          const m = this.main.getBoundingClientRect();
+          const st = this.main.scrollTop, sl = this.main.scrollLeft;
+          for (const it of this.items) {
+            const r = it.el.getBoundingClientRect();
+            it.r = { l: r.left - it.x - m.left + sl, t: r.top - it.y - m.top + st, w: r.width, h: r.height };
+          }
+          this.rectsDirty = false;
         },
         aim() {
           const strength = 5 + 13 * this.k;
+          if (this.on && this.rectsDirty) this.measure();
+          const m = this.on && this.main ? this.main.getBoundingClientRect() : null;
+          const st = this.main?.scrollTop ?? 0, sl = this.main?.scrollLeft ?? 0;
           for (const it of this.items) {
-            if (!this.on) { it.tx = 0; it.ty = 0; continue; }
-            const r = it.el.getBoundingClientRect();
-            // Nearest point of the element (minus our own offset) to the cursor.
-            const nx = Math.max(r.left - it.x, Math.min(this.mx, r.right - it.x));
-            const ny = Math.max(r.top - it.y, Math.min(this.my, r.bottom - it.y));
+            if (!this.on || !it.r || !m) { it.tx = 0; it.ty = 0; continue; }
+            const left = m.left + it.r.l - sl, top = m.top + it.r.t - st;
+            // Lines scrolled out of view don't need to move.
+            if (top + it.r.h < m.top - 200 || top > m.bottom + 200) { it.tx = 0; it.ty = 0; continue; }
+            // Nearest point of the element to the cursor.
+            const nx = Math.max(left, Math.min(this.mx, left + it.r.w));
+            const ny = Math.max(top, Math.min(this.my, top + it.r.h));
             const dx = this.mx - nx, dy = this.my - ny;
             const dist = Math.hypot(dx, dy);
             const f = strength * Math.exp(-(dist * dist) / (2 * 150 * 150));
@@ -274,7 +255,7 @@ const Stage = () => {
       const onFiles = () => setTimeout(() => { if (gravity.on) { gravity.collect(); gravity.aim(); } }, 320);
       live.addEventListener('click', onFiles);
 
-      const onRefresh = () => measure();
+      const onRefresh = () => { measure(); gravity.rectsDirty = true; };
       ScrollTrigger.addEventListener('refresh', onRefresh);
 
       const tl = gsap.timeline({
@@ -294,8 +275,8 @@ const Stage = () => {
             // Gravity lives in the hold; k = how close the singularity is (0 → 1).
             const k = (t - hold) / (tl.labels.singularity - hold);
             if (Math.abs(k - gravity.k) > 0.01 || (k >= 1) !== (gravity.k >= 1)) { gravity.k = k; gravity.sync(); }
-            // Final, fresh snapshot just before the singularity, once the pull has let go.
-            if (k >= 0.86 && k < 1 && stale && !capturing) capture();
+            // Refresh the snapshot only once the visitor is heading for the black hole.
+            if (k >= 0.55 && k < 1 && stale && !capturing) capture();
           },
         },
       });
