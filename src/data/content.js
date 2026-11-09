@@ -9,18 +9,39 @@ export const profile = {
   github: 'https://github.com/nidhinvijay',
   linkedin: 'https://www.linkedin.com/in/nidhin-v-807353341/',
   resume: '/NidhinV_Resume.pdf',
+  portfolio: 'https://nv.is-a.dev/',
   location: 'Kerala, India',
 };
 
 export const projects = [
   {
-    name: 'EMR',
+    name: 'Clinical EMR',
     file: 'emr.tsx',
-    tagline: 'Telemedicine & EMR SaaS',
+    tagline: 'Telemedicine EMR, live in a clinic',
     description:
-      'A telemedicine and EMR platform. Real-time waitlist triage over Server-Sent Events, Agora RTC video consultations, and server-side Tesseract OCR that ingests clinical documents automatically.',
-    stack: ['Next.js', 'TypeScript', 'Django', 'PostgreSQL', 'AWS EC2 / S3', 'SSE', 'Agora RTC', 'Docker'],
-    flow: ['Next.js', 'Django REST', 'PostgreSQL', 'S3 + OCR'],
+      'An EMR and telemedicine platform used in production by an allergy and Ayurveda clinic. AI patient intake and clinical summaries on AWS Bedrock, a real-time doctor queue over SSE, Agora video consults, OCR for lab reports, WhatsApp notifications and a Razorpay pharmacy store.',
+    stack: ['Next.js', 'TypeScript', 'Django REST', 'PostgreSQL', 'Celery', 'AWS Bedrock', 'Agora RTC', 'Docker'],
+    flow: ['Next.js', 'Django REST', 'AWS Bedrock', 'RDS + S3'],
+    isPrivate: true,
+  },
+  {
+    name: 'Loan Eligibility Platform',
+    file: 'loan_engine.py',
+    tagline: 'Lender matching with verified KYC',
+    description:
+      'Checks loan eligibility and matches borrowers to lenders. A 0–100 readiness score, FOIR and EMI calculations, a what-if simulator and PDF reports, with KYC and credit bureau checks through Decentro.',
+    stack: ['FastAPI', 'SQLAlchemy (async)', 'Neon Postgres', 'Redis', 'Next.js', 'Decentro'],
+    flow: ['KYC + bureau', 'FOIR / EMI', 'Lender match', 'PDF report'],
+    isPrivate: true,
+  },
+  {
+    name: 'Clinical Fitness Platform',
+    file: 'fitness.tsx',
+    tagline: 'Doctor-led training and nutrition',
+    description:
+      'Client and doctor portals for a doctor-run fitness programme. MediaPipe pose analysis checks exercise form, meal photos get an AI review, workouts go out as expiring WhatsApp links, and lab reports are tracked over time.',
+    stack: ['Next.js', 'FastAPI', 'Celery', 'Neon Postgres', 'MediaPipe', 'WhatsApp'],
+    flow: ['Workout link', 'MediaPipe pose', 'AI meal review', 'Doctor hub'],
     isPrivate: true,
   },
   {
@@ -111,11 +132,13 @@ export const timeline = [
     period: 'Mar 2026 – Present',
     head: true,
     commits: [
-      'feat: telemedicine + EMR SaaS on Next.js, Django REST and PostgreSQL',
-      'feat: real-time waitlist triage over SSE with Agora RTC video calls',
-      'feat: server-side Tesseract OCR for clinical document ingestion',
-      'ops: keyless S3 via IAM profiles, SES mail, Docker on EC2 behind Nginx + Cloudflare',
-      'feat: Google OAuth 2.0 with HTTP-only cookies; Razorpay apothecary store',
+      'feat: clinical EMR + telemedicine platform, live in a clinic (Next.js, Django REST)',
+      'feat: AI patient intake and clinical summaries on AWS Bedrock',
+      'feat: real-time doctor queue over SSE, Agora video consults, OCR for lab reports',
+      'ops: keyless AWS (EC2, private RDS, S3 pre-signed URLs, SES), Cloudflare WAF, GitHub Actions',
+      'feat: loan eligibility platform with Decentro KYC and credit bureau checks',
+      'feat: clinical fitness platform with MediaPipe form checks and WhatsApp workouts',
+      'chore: sprint planning and PR reviews for a team of interns and developers',
     ],
   },
   {
@@ -154,12 +177,13 @@ export const timeline = [
 
 export const skills = [
   { group: 'Languages', items: ['Python', 'TypeScript', 'JavaScript', 'Java', 'SQL', 'Dart'] },
-  { group: 'Backend', items: ['Django', 'DRF', 'FastAPI', 'Node.js', 'Celery', 'Redis', 'WebSockets', 'SSE', 'JWT'] },
-  { group: 'Frontend', items: ['React', 'Next.js', 'Angular', 'Tailwind CSS', 'Flutter'] },
-  { group: 'Cloud & DevOps', items: ['AWS (EC2, S3, SES, RDS)', 'GCP', 'Docker', 'Nginx', 'Cloudflare', 'PM2', 'Linux'] },
-  { group: 'Data', items: ['PostgreSQL', 'Neon', 'SQLite', 'Oracle SQL'] },
-  { group: 'AI & Real-time', items: ['Gemini', 'Groq', 'Agora RTC', 'WebRTC', 'Twilio', 'Google OAuth', 'Razorpay'] },
-  { group: 'Algo trading', items: ['PineScript', 'MetaTrader 5 API', 'MQL', 'Backtesting'] },
+  { group: 'Backend', items: ['Django', 'DRF', 'FastAPI', 'Node.js', 'Express', 'SQLAlchemy', 'Celery', 'Redis', 'WebSockets', 'SSE', 'JWT', 'OAuth 2.0 (Google Sign-In)'] },
+  { group: 'Frontend & Mobile', items: ['React', 'Next.js', 'Angular', 'Tailwind CSS', 'Framer Motion', 'GSAP', 'Flutter'] },
+  { group: 'Cloud & DevOps', items: ['AWS (EC2, S3, SES, RDS, Bedrock, IAM, SSM)', 'GCP', 'Docker', 'Nginx', 'Cloudflare', 'PM2', 'GitHub Actions', 'Linux'] },
+  { group: 'Data', items: ['PostgreSQL', 'AWS RDS', 'Neon', 'SQLite', 'Oracle SQL'] },
+  { group: 'AI & ML', items: ['AWS Bedrock', 'Gemini', 'Groq', 'OCR (Tesseract)', 'MediaPipe', 'TensorFlow / Keras'] },
+  { group: 'Integrations', items: ['Agora RTC', 'WebRTC', 'Twilio', 'WhatsApp Cloud API', 'Razorpay', 'Decentro KYC', 'Google APIs'] },
+  { group: 'Testing', items: ['pytest', 'Playwright'] },
 ];
 
 // Deterministic short "commit hash" for display only.

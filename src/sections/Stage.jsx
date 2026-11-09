@@ -27,11 +27,11 @@ async function embedEditorFont() {
 import EditorWindow from '../editor/EditorWindow';
 import { gsap, useGSAP, ScrollTrigger, prefersReducedMotion, scrollToTarget, jumps } from '../lib/motion';
 import { createBlackHole } from '../lib/blackhole';
-import { profile, projects } from '../data/content';
+import { profile, projects, timeline, skills } from '../data/content';
 
 const bootLines = [
   ['> nv_portfolio@2.0.0 dev', 'text-fg-faint'],
-  ['> compiling 3 roles, 8 projects, 40+ tools', 'text-fg-faint'],
+  [`> compiling ${timeline.length - 1} roles, ${projects.length} projects, ${skills.reduce((n, g) => n + g.items.length, 0)} tools`, 'text-fg-faint'],
   ['✓ ready — opening the editor below', 'text-accent'],
 ];
 
@@ -84,6 +84,8 @@ const Stage = () => {
       let capturing = false;
       let captured = false;
       let stale = true; // the snapshot no longer matches the live window
+      let ignoreScrollUntil = 0;
+      let fresh = false; // the current texture matches the live window
 
       const measure = () => {
         if (!bh) return;
@@ -95,22 +97,46 @@ const Stage = () => {
 
       const capture = async () => {
         if (!bh || capturing) return false;
-        if (gravity.on) return false; // never bake the cursor pull into the snapshot
-        gravity.reset();
         capturing = true;
         stale = false;
         try {
           // The snapshot must use the real editor font, or lines re-wrap and the swap snaps.
           if (!fontCSS) fontCSS = await embedEditorFont();
-          const img = await toCanvas(live, {
-            pixelRatio: Math.min(window.devicePixelRatio || 1, 1.75),
-            fontEmbedCSS: fontCSS,
-            backgroundColor: getComputedStyle(live.firstElementChild).backgroundColor,
-            // Capture the window as laid out, never mid-transition.
-            style: { transform: 'none', filter: 'none', opacity: '1', visibility: 'visible' },
-          });
+          // The snapshot tool copies elements but not their scroll position, so a file
+          // scrolled halfway down would come out showing its top. Swap each scroll offset
+          // for an equal translate while capturing (looks identical), then restore it.
+          ignoreScrollUntil = Infinity;
+          const scrolled = [...live.querySelectorAll('*')]
+            .filter((el) => el.scrollTop > 0 || el.scrollLeft > 0)
+            .map((el) => {
+              const top = el.scrollTop, left = el.scrollLeft;
+              const kids = [...el.children].map((k) => ({ k, prev: k.style.translate }));
+              kids.forEach(({ k }) => { k.style.translate = `${-left}px ${-top}px`; });
+              el.scrollTop = 0; el.scrollLeft = 0;
+              return { el, top, left, kids };
+            });
+          let img;
+          try {
+            // Never hang: if the browser stalls the snapshot, give up and restore the window.
+            const timeout = new Promise((_, rej) => setTimeout(() => rej(new Error('snapshot timed out')), 2500));
+            img = await Promise.race([timeout, toCanvas(live, {
+              pixelRatio: Math.min(window.devicePixelRatio || 1, 1.75),
+              fontEmbedCSS: fontCSS,
+              backgroundColor: getComputedStyle(live.firstElementChild).backgroundColor,
+              // Capture the window as laid out, never mid-transition.
+              style: { transform: 'none', filter: 'none', opacity: '1', visibility: 'visible' },
+            })]);
+          } finally {
+            scrolled.forEach(({ el, top, left, kids }) => {
+              kids.forEach(({ k, prev }) => { k.style.translate = prev; });
+              el.scrollTop = top; el.scrollLeft = left;
+            });
+            // Our own scroll restore fires scroll events; don't treat them as edits.
+            ignoreScrollUntil = performance.now() + 300;
+          }
           bh.setTexture(img);
           captured = true;
+          fresh = !stale; // nothing changed while we were capturing
           draw();
           return true;
         } catch (err) {
@@ -127,7 +153,11 @@ const Stage = () => {
         const webgl = bh?.ready;
         const active = p > 0.0005;
         // No texture (yet) or no WebGL: spiral the live window away instead of leaving it stuck.
-        const mode = !active ? 'live' : webgl ? 'gl' : 'css';
+        // A fresh snapshot is still being taken: keep the real window up a moment longer
+        // rather than falling into an outdated picture (e.g. a different file or scroll spot).
+        if (active && bh && !fresh && !capturing && p < 0.15) capture();
+        const waiting = webgl && !fresh && p < 0.15;
+        const mode = !active || waiting ? 'live' : webgl ? 'gl' : 'css';
         if (active && bh && !webgl && !captured) capture();
         if (mode !== shown) {
           if (mode === 'gl') measure();
@@ -151,10 +181,12 @@ const Stage = () => {
 
       // Anything that changes what the window shows makes the snapshot stale.
       let recapture;
-      const dirty = () => {
+      const dirty = (e) => {
+        if (e?.type === 'scroll' && performance.now() < ignoreScrollUntil) return;
         stale = true;
+        fresh = false;
         clearTimeout(recapture);
-        recapture = setTimeout(() => { if (state.p === 0 && !gravity.on) capture(); }, 600);
+        recapture = setTimeout(() => { if (state.p === 0) capture(); }, 350);
       };
       const observer = new MutationObserver(dirty);
       observer.observe(live, { subtree: true, childList: true, characterData: true });
@@ -258,7 +290,7 @@ const Stage = () => {
           onUpdate: (self) => {
             const t = self.progress * tl.duration();
             const hold = tl.labels.hold;
-            if (t < hold - 1) stale = true;
+            if (t < hold - 1) { stale = true; fresh = false; }
             // Gravity lives in the hold; k = how close the singularity is (0 → 1).
             const k = (t - hold) / (tl.labels.singularity - hold);
             if (Math.abs(k - gravity.k) > 0.01 || (k >= 1) !== (gravity.k >= 1)) { gravity.k = k; gravity.sync(); }
@@ -332,7 +364,7 @@ const Stage = () => {
           {projects.length} projects.<br /><span className="text-fg-muted">Built end to end.</span>
         </p>
         <p className="mt-7 font-code text-xs md:text-sm tracking-[0.08em] text-fg-faint">
-          healthcare <span className="text-accent/70 mx-2">·</span> live trading <span className="text-accent/70 mx-2">·</span> voice ai <span className="text-accent/70 mx-2">·</span> hiring automation
+          healthcare <span className="text-accent/70 mx-2">·</span> fintech <span className="text-accent/70 mx-2">·</span> live trading <span className="text-accent/70 mx-2">·</span> voice ai
         </p>
       </div>
 

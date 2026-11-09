@@ -33,9 +33,9 @@ const About = () => {
         >
           <TypeAnimation
             sequence={[`// SUMMARY
-// Full Stack Developer with experience building real-time AI systems, scalable backend architectures, and production-grade web and mobile applications.
-// Proficient in Next.js, React, Django, FastAPI, Node.js, and cloud deployments on AWS and Google Cloud.
-// Skilled in integrating LLMs (Gemini, Llama), developing event-driven architectures (SSE, WebSockets), and implementing secure, containerized deployment pipelines.`,
+// Full Stack Developer with 1.5+ years of experience building and shipping production web platforms in healthcare, fintech and real-time AI.
+// Works end to end with Next.js, React, Django, FastAPI and Node.js, from LLM features on AWS Bedrock to containerized deployments on AWS and Google Cloud.
+// Experienced with real-time systems (SSE, WebSockets, WebRTC), integrations (payments, KYC, WhatsApp, video calls) and secure cloud setups.`,
               1000,
             ]}
             wrapper="pre"

@@ -24,7 +24,7 @@ const Cursor = () => {
     const s = { hover: false, down: false, pull: 0, shown: false };
 
     const apply = () => {
-      const scale = (s.hover ? 2.1 : 1) * (s.down ? 0.7 : 1) * (1 + s.pull * 1.4);
+      const scale = (s.hover ? 1.5 : 1) * (s.down ? 0.75 : 1) * (1 + s.pull * 0.8);
       gsap.to(core.current, { scale, duration: 0.35, ease: 'expo.out', overwrite: 'auto' });
       core.current.dataset.hover = s.hover ? 'true' : 'false';
     };
@@ -67,7 +67,7 @@ const Cursor = () => {
       <div
         ref={core}
         data-hover="false"
-        className="nv-cursor -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 rounded-full bg-black"
+        className="nv-cursor -translate-x-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-black"
       />
     </div>,
     document.body
