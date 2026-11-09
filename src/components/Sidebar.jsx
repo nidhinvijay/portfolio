@@ -27,7 +27,8 @@ const Sidebar = ({ onOpenFile, isMobile, onThemeChange, activeTheme }) => {
   const [show404, setShow404] = useState(false);
 
   const themes = [
-    { label: 'Dark+',        value: '',                   swatch: '#007acc' },
+    { label: 'Midnight',     value: '',                   swatch: '#c6f25a' },
+    { label: 'Dark+',        value: 'theme-dark-plus',    swatch: '#007acc' },
     { label: 'Dracula',      value: 'theme-dracula',      swatch: '#bd93f9' },
     { label: 'GitHub Light', value: 'theme-github-light', swatch: '#0366d6' },
     { label: 'Monokai',      value: 'theme-monokai',      swatch: '#a6e22e' },

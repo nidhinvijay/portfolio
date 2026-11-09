@@ -1,63 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const projects = [
-  {
-    name: 'EMR',
-    description: 'High-performance telemedicine and EMR SaaS platform. Features a real-time waitlist triage system using Server-Sent Events (SSE), Agora RTC video consultations, and server-side Tesseract OCR for automated clinical document ingestion.',
-    stack: ['Next.js (App Router)', 'TypeScript', 'Django', 'PostgreSQL', 'AWS (EC2, S3)', 'SSE', 'Agora RTC', 'Docker'],
-    isPrivate: true
-  },
-  {
-    name: 'VoiceGuardian',
-    description: 'AI Voice Moderation Platform built across 3 platforms — Twilio/Django Channels (browser), WebRTC (peer), Agora RTC + Flutter (mobile). FastAPI + SQLModel backend with JWT auth, friend/call management, Firebase FCM push, Perspective API + Groq LLM for toxicity detection and polite rephrasing.',
-    stack: ['FastAPI', 'Django', 'Flutter', 'Agora RTC', 'Firebase', 'Groq', 'Google STT', 'Docker'],
-    links: [
-      { label: 'Web Backend', url: 'https://github.com/nidhinvijay/voice_guard' },
-      { label: 'Mobile Backend', url: 'https://github.com/nidhinvijay/voiceguardian' },
-      { label: 'Flutter App', url: 'https://github.com/nidhinvijay/voiceguardian_app' },
-    ]
-  },
-  {
-    name: 'Zerodha_Live_Trading_System',
-    description: 'Real-money multi-account trading system via Zerodha KiteConnect API. Angular 19 frontend + Node.js + Socket.IO backend. FSM validates paper P&L before going live; dynamic capital-based quantity calculation, hot-reload credentials, TradingView webhook signal injection.',
-    stack: ['Angular 19', 'Node.js', 'Socket.IO', 'KiteConnect API', 'PM2', 'Cloudflare Tunnel'],
-    link: 'https://github.com/nidhinvijay/Zerodha'
-  },
-  {
-    name: 'Multi_Asset_Paper_Trader',
-    description: 'Real-time paper trading engine using Node.js + WebSockets processing 100+ symbol updates/sec. Dual FSM (Long/Short) with crash-safe state persistence. Integrated Binance WebSocket, Fyers OAuth v3, and TradingView webhooks.',
-    stack: ['Node.js', 'Express', 'WebSockets', 'Binance API', 'Fyers API', 'Google Cloud VM', 'PM2'],
-    link: 'https://github.com/nidhinvijay/BTCUSDT'
-  },
-  {
-    name: 'BookHub',
-    description: 'Library Management System with Django. Full Razorpay payment lifecycle (5 stages), Google Books API with 24-hour caching, role-based access decorators, librarian analytics dashboard.',
-    stack: ['Django', 'Razorpay', 'Google Books API', 'PostgreSQL'],
-    links: [
-      { label: 'Live Demo', url: 'https://bookhub-if2m.onrender.com' },
-      { label: 'GitHub', url: 'https://github.com/nidhinvijay/BookHub' },
-    ]
-  },
-  {
-    name: 'AI_Interview_Bot',
-    description: 'Full-stack AI recruitment platform. PDF resume parsing → Gemini API generates 30 MCQs tailored to candidate. Real-time facial emotion detection using TensorFlow/Keras + OpenCV. Multi-stage hiring pipeline.',
-    stack: ['React', 'Django', 'Gemini API', 'TensorFlow', 'OpenCV', 'PyPDF2'],
-    link: 'https://github.com/nidhinvijay/AI_Interview_Bot'
-  },
-  {
-    name: 'HR_AI_Agent',
-    description: 'AI-powered recruitment screening tool. Gemini API parses resumes, scores candidates 1–100, and ranks by relevance. Google Calendar API auto-schedules interviews for shortlisted candidates.',
-    stack: ['Django REST Framework', 'Gemini API', 'Google Calendar API', 'PyPDF2'],
-    link: 'https://github.com/nidhinvijay/hr-ai-agent'
-  },
-  {
-    name: 'Textlytics',
-    description: 'Containerized Text Analysis Platform. Production-ready REST API using Django REST Framework, Celery, Redis, and PostgreSQL with GIN indexing for high-performance text search.',
-    stack: ['Django REST Framework', 'Celery', 'Redis', 'PostgreSQL', 'Docker'],
-    link: 'https://github.com/nidhinvijay/textlytics'
-  }
-];
+import { projects } from '../data/content';
 
 const Projects = () => {
   return (
@@ -71,7 +15,7 @@ const Projects = () => {
             whileHover={{ scale: 1.02, x: 10, boxShadow: "0px 0px 8px rgba(0, 122, 204, 0.5)" }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <p className="text-lg"><span className="text-blue-400">def</span> <span className="text-green-400">{project.name}</span>():</p>
+            <p className="text-lg"><span className="text-blue-400">def</span> <span className="text-green-400">{project.name.replace(/\W+/g, '_')}</span>():</p>
             <div className="ml-8 border-l-2 border-gray-600 pl-4">
               <p><span className="text-purple-400">description</span> = <span className="text-yellow-300">"{project.description}"</span></p>
               <p><span className="text-purple-400">stack</span> = <span className="text-yellow-300">{JSON.stringify(project.stack)}</span></p>

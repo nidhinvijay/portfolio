@@ -9,15 +9,11 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
   ]);
   const [input, setInput] = useState('');
   const inputRef = useRef(null);
-  const bottomRef = useRef(null);
+  const scrollRef = useRef(null);
 
+  // Keep the log pinned to the bottom without scrolling the page itself.
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [isOpen, history]);
 
   const handleCommand = (cmd) => {
@@ -34,9 +30,11 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
   clear           - Clear terminal history
   ls              - List available pages
   open [page]     - Open a page (e.g., "open projects")
-  theme [name]    - Switch theme (dracula, github, monokai, dark)
+  theme [name]    - Switch theme (midnight, dark, dracula, github, monokai)
   about           - Show about info
-  whoami          - Display current user`;
+  whoami          - Display current user
+  npm run nv_portfolio - Rebuild the portfolio
+  exit            - Close the editor and see the work`;
         break;
       case 'clear':
         setHistory([]);
@@ -55,14 +53,26 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
         if (onCommand('theme', param)) {
           output = `Switched theme to ${param}.`;
         } else {
-          output = `Theme "${param}" not found. Available: dark, dracula, github, monokai.`;
+          output = `Theme "${param}" not found. Available: midnight, dark, dracula, github, monokai.`;
         }
+        break;
+      case 'npm':
+        output = param.trim() === 'run nv_portfolio'
+          ? `> nv_portfolio@2.0.0 dev
+> vite
+
+  ready in 312 ms  ->  you are already looking at it.`
+          : `npm: unknown command "${param}". Try "npm run nv_portfolio".`;
+        break;
+      case 'exit':
+        onCommand('exit');
+        output = 'Closing editor...';
         break;
       case 'whoami':
         output = 'visitor@portfolio';
         break;
       case 'about':
-        output = 'Nidhin V - Full Stack Developer';
+        output = 'Nidhin Vijay - Full Stack Developer';
         break;
       case '':
         break;
@@ -92,7 +102,7 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
         <span>Terminal</span>
         <VscChromeClose className="cursor-pointer hover:text-white" onClick={onClose} />
       </div>
-      <div className="flex-1 overflow-y-auto p-4" onClick={() => inputRef.current?.focus()}>
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4" onClick={() => inputRef.current?.focus({ preventScroll: true })}>
         {history.map((line, i) => (
           <div key={i} className={`mb-1 ${line.type === 'input' ? 'text-vscode-text' : 'text-gray-400 whitespace-pre-wrap'}`}>
             {line.content}
@@ -109,9 +119,9 @@ const Terminal = ({ isOpen, onClose, onCommand }) => {
             className="flex-1 bg-transparent outline-none border-none text-vscode-text"
             spellCheck="false"
             autoComplete="off"
+            aria-label="Terminal command"
           />
         </div>
-        <div ref={bottomRef} />
       </div>
     </div>
   );

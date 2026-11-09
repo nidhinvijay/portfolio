@@ -14,7 +14,7 @@ const About = () => {
           className="text-2xl font-bold mb-2 text-vscode-accent inline-block"
           whileHover={{ scale: 1.05, color: "#61dafb" }}
         >
-          Nidhin V
+          Nidhin Vijay
         </motion.h1>
         
         <motion.div 

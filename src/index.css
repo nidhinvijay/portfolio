@@ -3,7 +3,32 @@
 @tailwind utilities;
 
 :root {
-  /* Default Dark+ Theme */
+  /* Site (editorial) */
+  --ink-0: #09090b;
+  --ink-1: #111114;
+  --ink-2: #1a1a1f;
+  --fg: #f1f1ec;
+  --fg-muted: #a3a3ab;
+  --fg-faint: #6e6e78;
+  --line: rgba(241, 241, 236, 0.1);
+  --accent: #c6f25a;
+  --accent-ink: #0d1203;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Default editor theme: Midnight (matches the page) */
+  --bg-vscode: #0c0c0f;
+  --bg-sidebar: #111114;
+  --bg-activitybar: #08080a;
+  --bg-statusbar: #111114;
+  --bg-editor: #0c0c0f;
+  --bg-hover: #1b1b20;
+  --text-primary: #d9d9d3;
+  --text-secondary: #a3a3ab;
+  --border-color: #1f1f25;
+  --accent-color: #c6f25a;
+}
+
+.theme-dark-plus {
   --bg-vscode: #1e1e1e;
   --bg-sidebar: #252526;
   --bg-activitybar: #333333;
@@ -13,6 +38,7 @@
   --text-secondary: #cccccc;
   --border-color: #3e3e42;
   --accent-color: #007acc;
+  --bg-hover: #2a2d2e;
 }
 
 .theme-dracula {
@@ -51,10 +77,18 @@
   --accent-color: #a6e22e;
 }
 
+html {
+  background-color: var(--ink-0);
+  color-scheme: dark;
+}
+
 body {
-  background-color: var(--bg-vscode);
-  color: var(--text-primary);
-  font-family: 'Fira Code', monospace;
+  background-color: var(--ink-0);
+  color: var(--fg);
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -81,3 +115,59 @@ body {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Browser surfaces */
+::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+html { scrollbar-color: #2b2b31 var(--ink-0); }
+a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+.editor-root ::selection { background: #264f78; color: inherit; }
+.editor-root { font-family: 'Fira Code', monospace; line-height: 1.5; }
+
+.tabular { font-variant-numeric: tabular-nums; }
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* Data packet travelling down a project pipeline */
+@keyframes packet {
+  0% { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(var(--travel, 64px)); opacity: 0; }
+}
+.packet { animation: packet 1.6s var(--ease-out) infinite; }
+
+@keyframes caret { 50% { opacity: 0; } }
+.caret { animation: caret 1s steps(1) infinite; }
+
+@keyframes cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.cue-line { animation: cue 2.2s var(--ease-out) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .packet, .cue-line, .caret { animation: none; }
+}
+
+/* Site cursor: a tiny singularity (see Cursor.jsx). Native pointer hidden on fine pointers only. */
+.has-cursor, .has-cursor * { cursor: none !important; }
+.nv-cursor {
+  box-shadow: 0 0 0 1.5px rgba(198, 242, 90, 0.85), 0 0 16px 2px rgba(198, 242, 90, 0.3);
+  transition: background-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+.nv-cursor[data-hover='true'] {
+  background-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 1px rgba(198, 242, 90, 0.9), 0 0 22px 4px rgba(198, 242, 90, 0.35);
+}
+
+/* No stray text caret when clicking plain text; real inputs keep theirs. */
+body { caret-color: transparent; }
+input, textarea, [contenteditable='true'] { caret-color: var(--accent); }
